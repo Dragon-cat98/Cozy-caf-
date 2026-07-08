@@ -1,0 +1,43 @@
+using UnityEngine;
+using UnityEngine.UI;
+public class Customer_logic : MonoBehaviour
+{
+    public float speed;
+    public Transform target;
+    public Transform target2;
+
+    public GameObject Canvas;
+
+    GameManager gamemanager;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        gamemanager = Object.FindAnyObjectByType<GameManager>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+        
+        if(gamemanager.buttonPressed == true)
+        {
+         transform.position = Vector3.MoveTowards(transform.position, target2.position, speed * Time.deltaTime);
+        }
+        else
+        {
+           transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        }
+
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Ordine"))
+        {
+            Debug.Log("Pronto per ordinare");
+            Canvas.SetActive(true);
+        }
+    }
+}
