@@ -19,8 +19,8 @@ public class Customer_logic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        
+        /*moves the customer towards the counter if the button hasn't been pressed
+        otherwise moves the customer away from the counter to the starting position*/
         if(gamemanager.buttonPressed == true)
         {
          transform.position = Vector3.MoveTowards(transform.position, target2.position, speed * Time.deltaTime);
@@ -34,6 +34,7 @@ public class Customer_logic : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        //uses tag to check if customer arrived at the counter
         if(other.CompareTag("Ordine"))
         {
             Debug.Log("Pronto per ordinare");
