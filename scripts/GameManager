@@ -1,0 +1,31 @@
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+    public int money = 0;   
+    public GameObject Canvas;
+
+    public bool buttonPressed;
+    Customer_logic customerLogic;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        customerLogic = Object.FindAnyObjectByType<Customer_logic>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void Serve()
+    {
+        money += 10;
+        Canvas.SetActive(false);
+        buttonPressed = true;
+    }
+    
+
+
+}
