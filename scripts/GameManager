@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    
     public int money = 0;   
     public GameObject Canvas;
-
     public bool buttonPressed;
     Customer_logic customerLogic;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //get reference to the customer logic script
         customerLogic = Object.FindAnyObjectByType<Customer_logic>();
     }
 
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     public void Serve()
     {
+        //function that is called when the serve button is pressed, adds money to the total and hides the canvas
         money += 10;
         Canvas.SetActive(false);
         buttonPressed = true;
