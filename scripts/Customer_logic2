@@ -1,0 +1,61 @@
+using UnityEngine;
+using UnityEngine.UI;
+public class Customer_logic2 : MonoBehaviour
+{
+    public float speed;
+    public Transform target3;
+    public Transform target4;
+    public GameObject Panel2;
+    public float time;
+    public float fixed_time;
+    GameManager gamemanager;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        gamemanager = Object.FindAnyObjectByType<GameManager>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        time -= Time.deltaTime;
+
+        if(time <= 0)
+        {
+            /*moves the customer towards the counter if the button hasn't been pressed
+         otherwise moves the customer away from the counter to the starting position*/
+         if(gamemanager.buttonPressed2 == true)
+         {
+         transform.position = Vector3.MoveTowards(transform.position, target4.position, speed * Time.deltaTime);
+         }
+         else
+         {
+            transform.position = Vector3.MoveTowards(transform.position, target3.position, speed * Time.deltaTime);
+         }
+
+        }
+       
+
+
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        //uses tag to check if customer 2 arrived at the counter
+        if(other.CompareTag("Ordine"))
+        {
+            Debug.Log("Pronto per ordinare");
+            Panel2.SetActive(true);
+        }
+
+        //uses tag to check if customer 2 arrived at the starting position
+        if(other.CompareTag("Stop"))
+        {
+            Debug.Log("Fermato");
+            time = fixed_time;
+            gamemanager.buttonPressed2 = false;
+        }
+
+    }
+}
