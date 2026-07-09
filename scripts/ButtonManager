@@ -1,0 +1,52 @@
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+public class ButtonManager : MonoBehaviour 
+{
+    GameManager gamemanager;
+    public int Cost = 10;
+    public TextMeshProUGUI MaxedUPText;
+    public Button button;
+    Image image;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        //get the references
+        gamemanager = Object.FindAnyObjectByType<GameManager>();
+        image = button.GetComponent<Image>();
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        /*checks if the player has enough money to upgrade
+        if so enables the button and changes the color of the button to white*/
+        if(gamemanager.money >= Cost)
+        {
+            button.interactable = true;
+            image.color = Color.white;
+        }
+        else
+        {
+            /*if the player doesn't have enough money
+            to upgrade disables the button and changes the color of the button to the base color*/
+            button.interactable = false;
+            
+        }
+
+        if(gamemanager.price >= 20)
+        {
+            /*if the palyer has done 2 upgrades disables the Upgrade button
+            and showthe text "Maxed"*/
+           MaxedUPText.text = "Maxed";
+           button.interactable = false;
+           image.color = Color.gray;
+        }
+    }
+    public void Upgrade1()
+    {
+        //function that upgrades the shop when button is pressed
+        gamemanager.price += 5;
+        gamemanager.money -= Cost;
+        Cost += 10;
+    }
+}
