@@ -1,0 +1,29 @@
+using UnityEngine;
+using UnityEngine.UI;
+public class Kitchenpanel : MonoBehaviour
+{
+    public GameObject panel;
+    
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    
+    //functions that show and hide the kitchen panel when the button is pressed
+    public void ShowPanel()
+    {
+        panel.SetActive(true);
+    }
+    public void HidePanel()
+    {
+        panel.SetActive(false);
+    }
+
+}
