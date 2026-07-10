@@ -1,0 +1,38 @@
+using UnityEngine;
+
+public class Pause_menu : MonoBehaviour
+{
+    public GameObject pause_panel;
+    public GameObject button;
+    public GameObject button2;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    //functions that pause and unpause the game when the button is pressed
+    public void Pause()
+    {
+        pause_panel.SetActive(true);
+        Time.timeScale = 0f;
+        button.SetActive(false);
+        button2.SetActive(true);
+        
+    }
+
+    public void UnPause()
+    {
+        pause_panel.SetActive(false);
+        Time.timeScale = 1f;
+        button.SetActive(true);
+        button2.SetActive(false);
+    }
+
+}
