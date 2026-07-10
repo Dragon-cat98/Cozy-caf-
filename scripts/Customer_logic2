@@ -13,17 +13,19 @@ public class Customer_logic2 : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //get references
         gamemanager = Object.FindAnyObjectByType<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //starts a timer
         time -= Time.deltaTime;
 
         if(time <= 0)
         {
-            /*moves the customer towards the counter if the button hasn't been pressed
+         /*moves the customer towards the counter if the button hasn't been pressed
          otherwise moves the customer away from the counter to the starting position*/
          if(gamemanager.buttonPressed2 == true)
          {
