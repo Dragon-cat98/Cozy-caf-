@@ -5,31 +5,37 @@ public class Customer_logic : MonoBehaviour
     public float speed;
     public Transform target;
     public Transform target2;
-
-    public GameObject Canvas;
-
+    public GameObject Panel;
+    public float time;
+    public float fixed_time;
     GameManager gamemanager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //get references
         gamemanager = Object.FindAnyObjectByType<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*moves the customer towards the counter if the button hasn't been pressed
-        otherwise moves the customer away from the counter to the starting position*/
-        if(gamemanager.buttonPressed == true)
-        {
-         transform.position = Vector3.MoveTowards(transform.position, target2.position, speed * Time.deltaTime);
-        }
-        else
-        {
-           transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-        }
+        //starts a timer
+        time -= Time.deltaTime;
 
+        if(time <= 0)
+        {
+            /*moves the customer towards the counter if the button hasn't been pressed
+         otherwise moves the customer away from the counter to the starting position*/
+         if(gamemanager.buttonPressed == true)
+         {
+         transform.position = Vector3.MoveTowards(transform.position, target2.position, speed * Time.deltaTime);
+         }
+         else
+         {
+            transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+         }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -38,7 +44,15 @@ public class Customer_logic : MonoBehaviour
         if(other.CompareTag("Ordine"))
         {
             Debug.Log("Pronto per ordinare");
-            Canvas.SetActive(true);
+            Panel.SetActive(true);
+        }
+
+       //uses tag to check if customer arrived at the starting position
+        if(other.CompareTag("Stop"))
+        {
+            Debug.Log("Fermato");
+            time = fixed_time;
+            gamemanager.buttonPressed = false;
         }
     }
 }
