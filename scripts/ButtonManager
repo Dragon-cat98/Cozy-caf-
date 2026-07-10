@@ -1,19 +1,37 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class ButtonManager : MonoBehaviour 
+public class ButtonManager : MonoBehaviour
 {
-    GameManager gamemanager;
+
+ GameManager gamemanager;
+
+    //variables for the first upgrade
+    [Header("Upgrade 1")]
     public int Cost = 10;
     public TextMeshProUGUI MaxedUPText;
     public Button button;
     Image image;
+
+    //variables for the second upgrade
+    [Header("Upgrade 2")]
+    public int cost2 = 20;
+    Customer_logic customer_logic;
+    Customer_logic2 customer_logic2;
+    public int clicked1 = 0;
+    public TextMeshProUGUI MaxedUPText2;
+    public Button button2;
+    Image image2;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //get the references
         gamemanager = Object.FindAnyObjectByType<GameManager>();
         image = button.GetComponent<Image>();
+        customer_logic = Object.FindAnyObjectByType<Customer_logic>();
+        customer_logic2 = Object.FindAnyObjectByType<Customer_logic2>();
+        image2 = button2.GetComponent<Image>();
     }
     // Update is called once per frame
     void Update()
@@ -39,8 +57,30 @@ public class ButtonManager : MonoBehaviour
             and showthe text "Maxed"*/
            MaxedUPText.text = "Maxed";
            button.interactable = false;
-           image.color = Color.gray;
+           
         }
+
+
+        //checks if the player has enough money to upgrade
+        if(gamemanager.money >= cost2)
+        {
+            button2.interactable = true;
+            image2.color = Color.white;
+        }
+        else
+        {
+            //if the player doesn't have enough money the button doesn't activate
+            button2.interactable = false;
+        }
+        if(clicked1 >= 3)
+        {
+            //if the player has done 3 upgrades disables the Upgrade button
+            //and showthe text "Maxed"
+           MaxedUPText2.text = "Maxed";
+           button2.interactable = false;
+           
+        }
+
     }
     public void Upgrade1()
     {
@@ -48,5 +88,15 @@ public class ButtonManager : MonoBehaviour
         gamemanager.price += 5;
         gamemanager.money -= Cost;
         Cost += 10;
+    }
+
+    public void Upgrade2()
+    {
+        //function that upgrades the shop when button is pressed
+        customer_logic.fixed_time -= 2.0f;
+        customer_logic2.fixed_time -= 2.0f;
+        gamemanager.money -= cost2;
+        cost2 += 15;
+        clicked1++;
     }
 }
