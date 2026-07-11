@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class Customer_logic : MonoBehaviour
 {
     public float speed;
@@ -10,11 +11,20 @@ public class Customer_logic : MonoBehaviour
     public float fixed_time;
     GameManager gamemanager;
 
+
+    public TextMeshProUGUI Payedtext;
+    public GameObject Payed;
+
+    public float fadingPayed_effectTime = 2;
+
+    public float fadingPayed_effect;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //get references
         gamemanager = Object.FindAnyObjectByType<GameManager>();
+        
     }
 
     // Update is called once per frame
@@ -36,6 +46,25 @@ public class Customer_logic : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
          }
         }
+
+
+        //if the customer has been served dispaly teh amount of money he gave
+        //and starts a timer 
+        if(gamemanager.buttonPressed == true)
+        {
+            Payedtext.text = "Thanks! +" + gamemanager.price + "¥";
+            fadingPayed_effect -= Time.deltaTime;
+            Payed.SetActive(true);
+        }
+
+        //when the timer runs out the text disappears
+        if(fadingPayed_effect <=0)
+        {
+            Payed.SetActive(false);
+        }
+        
+
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -53,6 +82,9 @@ public class Customer_logic : MonoBehaviour
             Debug.Log("Fermato");
             time = fixed_time;
             gamemanager.buttonPressed = false;
+
+            //resets teh timer if the custoemr has reached the starting point
+            fadingPayed_effect = fadingPayed_effectTime;
         }
     }
 }
