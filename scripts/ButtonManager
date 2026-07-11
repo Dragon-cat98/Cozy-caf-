@@ -4,7 +4,14 @@ using TMPro;
 public class ButtonManager : MonoBehaviour
 {
 
- GameManager gamemanager;
+    //variables for general purpose
+    [Header("General")]
+    public bool level;
+    public int levelnumber;
+
+    public bool level2;
+     public int levelnumber2;
+    GameManager gamemanager;
 
     //variables for the first upgrade
     [Header("Upgrade 1")]
@@ -12,13 +19,14 @@ public class ButtonManager : MonoBehaviour
     public TextMeshProUGUI MaxedUPText;
     public Button button;
     Image image;
+    public int clicked1 = 0;
 
     //variables for the second upgrade
     [Header("Upgrade 2")]
     public int cost2 = 20;
     Customer_logic customer_logic;
     Customer_logic2 customer_logic2;
-    public int clicked1 = 0;
+    public int clicked2 = 0;
     public TextMeshProUGUI MaxedUPText2;
     public Button button2;
     Image image2;
@@ -36,6 +44,26 @@ public class ButtonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(level == true)
+        {
+            /*checks if the paleyr has pressed the upgrade button
+            if they did the text shows the level of the upgrade based
+            on how many times the button was pressed */
+            MaxedUPText.text = "UP1: Level " + clicked1;
+            levelnumber++;
+            level = false;
+        }
+
+        if(level2 == true)
+        {
+            /*checks if the paleyr has pressed the upgrade button
+            if they did the text shows the level of the upgrade based
+            on how many times the button was pressed */
+            MaxedUPText2.text = "UP2: Level " + clicked2;
+            levelnumber2++;
+            level2 = false;
+        }
+
         /*checks if the player has enough money to upgrade
         if so enables the button and changes the color of the button to white*/
         if(gamemanager.money >= Cost)
@@ -51,15 +79,14 @@ public class ButtonManager : MonoBehaviour
             
         }
 
-        if(gamemanager.price >= 20)
+        if(clicked1 >= 5)
         {
-            /*if the palyer has done 2 upgrades disables the Upgrade button
-            and showthe text "Maxed"*/
+            /*if the palyer has done 5 upgrades disables the Upgrade button
+            and shows the text "Maxed"*/
            MaxedUPText.text = "Maxed";
            button.interactable = false;
-           
         }
-
+        
 
         //checks if the player has enough money to upgrade
         if(gamemanager.money >= cost2)
@@ -72,13 +99,12 @@ public class ButtonManager : MonoBehaviour
             //if the player doesn't have enough money the button doesn't activate
             button2.interactable = false;
         }
-        if(clicked1 >= 3)
+        if(clicked2 >= 3)
         {
             //if the player has done 3 upgrades disables the Upgrade button
             //and showthe text "Maxed"
            MaxedUPText2.text = "Maxed";
            button2.interactable = false;
-           
         }
 
     }
@@ -88,6 +114,9 @@ public class ButtonManager : MonoBehaviour
         gamemanager.price += 5;
         gamemanager.money -= Cost;
         Cost += 10;
+        clicked1++;
+        level = true;
+        
     }
 
     public void Upgrade2()
@@ -97,6 +126,7 @@ public class ButtonManager : MonoBehaviour
         customer_logic2.fixed_time -= 2.0f;
         gamemanager.money -= cost2;
         cost2 += 15;
-        clicked1++;
+        clicked2++;
+        level2 = true;
     }
 }
