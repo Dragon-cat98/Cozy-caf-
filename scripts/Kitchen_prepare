@@ -1,0 +1,77 @@
+
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
+public class Kitchen_prepare : MonoBehaviour
+{
+
+    public bool Clicked_coffe = false;
+    public float time = 2;
+    public float fixed_time = 2;
+    public bool contact;
+    public GameObject Coffe_Kitchen;
+    public RectTransform Position_kitchen;
+    public int Coffes_made;
+    public Button PrepButton;
+    public bool CanPrepare;
+    ShelfChecker shelfChecker;  
+
+    public int MaxMadeCoffe = 4;
+    
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        //initiate the prepbutton state to true
+        PrepButton.interactable = true;
+
+        //get references
+        shelfChecker = Object.FindAnyObjectByType<ShelfChecker>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //I don't remember why I put a timer, but it didn't work so now
+        //I left it in case I might need it someday
+        if(contact == true)
+        {
+            time -= Time.deltaTime;
+        }
+    
+    }
+
+    public void UpdatePrepButton()
+    {
+        //checks if the coffes that have been made are a certain number
+        //and ouputs a bool value
+        CanPrepare = Coffes_made < MaxMadeCoffe;
+        //the ouput of the bool value decides the state of the button 
+        PrepButton.interactable = CanPrepare;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        //sets the contact bool to true
+        contact = true;
+        if(other.CompareTag("Box"))
+        {
+            //adds 1 coffe to the coffes on the shelfs
+            shelfChecker.CoffeOnShelf++;
+            Debug.Log("idk");
+            //and destroys the object
+            Destroy(gameObject);
+        }
+    }
+
+    public void Prepare()
+    {
+        //function that prepares teh coffes
+        Instantiate(Coffe_Kitchen,Position_kitchen);
+        Coffes_made++;
+        //but before clicking the button runs this function
+        //to check if it can
+        UpdatePrepButton();
+    }
+
+
+}
