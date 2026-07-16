@@ -1,31 +1,84 @@
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class GameManager : MonoBehaviour
 {
-    
-    public int money = 0;   
-    public GameObject Canvas;
+   
+    public int money = 0;
+    public int price = 2;
+    public GameObject Panel;
+    public GameObject Panel2;
     public bool buttonPressed;
+    public bool buttonPressed2;
     Customer_logic customerLogic;
+    Kitchen_prepare kitchen_Prepare;
+    ShelfChecker shelfChecker;  
+
+    public Button servebutton1;
+    public Button servebutton2;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //get reference to the customer logic script
+        //get references
         customerLogic = Object.FindAnyObjectByType<Customer_logic>();
+        kitchen_Prepare = Object.FindAnyObjectByType<Kitchen_prepare>();
+        shelfChecker = Object.FindAnyObjectByType<ShelfChecker>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //check if the money has gone below 0 to avoid negative values
+      if(money <0)
+        {
+            money = 0;
+        }
+
+
+        //checks if there are any coffes prepared on the shelf
+        if(shelfChecker.CoffeOnShelf <= 0)
+        {
+            //if there aren't any you can't serve the customers
+            servebutton1.interactable = false;
+            servebutton2.interactable = false;
+        }
+        else
+        {
+            //if you have some you can serve the customer
+            servebutton1.interactable = true;
+            servebutton2.interactable = true;
+        }
+
+
+
+
     }
 
     public void Serve()
     {
-        //function that is called when the serve button is pressed, adds money to the total and hides the canvas
-        money += 10;
-        Canvas.SetActive(false);
+        //function that is called when the serve button is pressed, adds money to the total and hides the Panel
+        //used for customer 1
+        money += price;
+        Panel.SetActive(false);
         buttonPressed = true;
+        kitchen_Prepare.Coffes_made --;
+        kitchen_Prepare.UpdatePrepButton();
+        shelfChecker.CoffeOnShelf--;
+    }
+    public void Serve2()
+    {
+        //function that is called when the serve button is pressed, adds money to the total and hides the Panel
+        //used for the second customer 2
+        money += price;
+        Panel2.SetActive(false);
+        buttonPressed2 = true;
+        kitchen_Prepare.Coffes_made --;
+        kitchen_Prepare.UpdatePrepButton();
+        shelfChecker.CoffeOnShelf--;
+
     }
     
 
