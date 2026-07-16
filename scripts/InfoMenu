@@ -1,19 +1,26 @@
 using UnityEngine;
-
+using TMPro;
 public class InfoMenu : MonoBehaviour
 {
     public GameObject UP_infoMenu;
     public bool isOpen;
+    public TextMeshProUGUI DescriptionUP1;
+    public TextMeshProUGUI DescriptionUP2;
+    public TextMeshProUGUI DescriptionUP3;
+    ButtonManager buttonManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        buttonManager = Object.FindAnyObjectByType<ButtonManager>();   
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //displays the upgrade description + it's real time cost
+        DescriptionUP1.text = "UP1: Increases the coffe price by 2¥ \nprice: " + buttonManager.Cost;
+        DescriptionUP2.text = "UP2: decreases the time of customer arrival \nprice: " + buttonManager.cost2;
+        DescriptionUP3.text = "UP3: Increases the number of coffes you can brew \nprice: " + buttonManager.cost3;
     }
 
     //function that makes the button open and close the info menù
