@@ -6,44 +6,65 @@ public class ButtonManager : MonoBehaviour
 
     //variables for general purpose
     [Header("General")]
-    public bool level;
-    public int levelnumber;
 
-    public bool level2;
-     public int levelnumber2;
     GameManager gamemanager;
+    Customer_logic customer_logic;
+    Customer_logic2 customer_logic2;
+    Kitchen_prepare kitchen_Prepare;
 
     //variables for the first upgrade
     [Header("Upgrade 1")]
+    public bool level;
+    public int levelnumber;    
     public int Cost = 10;
+    public int clicked1 = 0;
     public TextMeshProUGUI MaxedUPText;
     public Button button;
     Image image;
-    public int clicked1 = 0;
+    public int UP_Max = 5;
+
+    
 
     //variables for the second upgrade
     [Header("Upgrade 2")]
+    public bool level2;
+    public int levelnumber2;    
     public int cost2 = 20;
-    Customer_logic customer_logic;
-    Customer_logic2 customer_logic2;
     public int clicked2 = 0;
     public TextMeshProUGUI MaxedUPText2;
     public Button button2;
     Image image2;
+    public int UP_Max2 = 3;
+
+    //variables for the third upgrade
+    [Header("Upgrade 3")]
+    public bool level3;
+     public int levelnumber3;
+    public int cost3 = 25;
+    public int clicked3 = 0;
+    public TextMeshProUGUI MaxedUPText3;
+    public Button button3;
+    Image image3;
+    public int UP_Max3 = 6;
     
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //get the references
         gamemanager = Object.FindAnyObjectByType<GameManager>();
-        image = button.GetComponent<Image>();
         customer_logic = Object.FindAnyObjectByType<Customer_logic>();
         customer_logic2 = Object.FindAnyObjectByType<Customer_logic2>();
+        kitchen_Prepare = Object.FindAnyObjectByType<Kitchen_prepare>();
+        image = button.GetComponent<Image>();
         image2 = button2.GetComponent<Image>();
+        image3 = button3.GetComponent<Image>();
+
     }
     // Update is called once per frame
     void Update()
     {
+        //UP1
         if(level == true)
         {
             /*checks if the paleyr has pressed the upgrade button
@@ -54,9 +75,10 @@ public class ButtonManager : MonoBehaviour
             level = false;
         }
 
+        //UP2
         if(level2 == true)
         {
-            /*checks if the paleyr has pressed the upgrade button
+            /*checks if the player has pressed the upgrade button
             if they did the text shows the level of the upgrade based
             on how many times the button was pressed */
             MaxedUPText2.text = "UP2: Level " + clicked2;
@@ -64,6 +86,18 @@ public class ButtonManager : MonoBehaviour
             level2 = false;
         }
 
+        //UP3
+        if(level3 == true)
+        {
+            /*checks if the player has pressed the upgrade button
+            if they did the text shows the level of the upgrade based
+            on how many times the button was pressed */
+            MaxedUPText3.text = "UP3: Level " + clicked3;
+            levelnumber3++;
+            level3 = false;
+        }
+
+        //UP1
         /*checks if the player has enough money to upgrade
         if so enables the button and changes the color of the button to white*/
         if(gamemanager.money >= Cost)
@@ -79,15 +113,15 @@ public class ButtonManager : MonoBehaviour
             
         }
 
-        if(clicked1 >= 5)
+        if(clicked1 >= UP_Max)
         {
-            /*if the palyer has done 5 upgrades disables the Upgrade button
+            /*if the palyer has done X upgrades disables the Upgrade button
             and shows the text "Maxed"*/
            MaxedUPText.text = "Maxed";
            button.interactable = false;
         }
         
-
+        //UP2
         //checks if the player has enough money to upgrade
         if(gamemanager.money >= cost2)
         {
@@ -99,13 +133,37 @@ public class ButtonManager : MonoBehaviour
             //if the player doesn't have enough money the button doesn't activate
             button2.interactable = false;
         }
-        if(clicked2 >= 3)
+
+        if(clicked2 >= UP_Max2)
         {
-            //if the player has done 3 upgrades disables the Upgrade button
+            //if the player has done X upgrades disables the Upgrade button
             //and showthe text "Maxed"
            MaxedUPText2.text = "Maxed";
            button2.interactable = false;
         }
+
+        //UP3
+        //checks if the player has enough money to upgrade
+        if(gamemanager.money >= cost3)
+        {
+            button3.interactable = true;
+            image3.color = Color.white;
+        }
+        else
+        {
+            //if the player doesn't have enough money the button doesn't activate
+            button3.interactable = false;
+        }
+
+        if(clicked3 >= UP_Max3)
+        {
+            //if the player has done X upgrades disables the Upgrade button
+            //and showthe text "Maxed"
+           MaxedUPText3.text = "Maxed";
+           button3.interactable = false;
+        }
+
+
 
     }
     public void Upgrade1()
@@ -129,4 +187,15 @@ public class ButtonManager : MonoBehaviour
         clicked2++;
         level2 = true;
     }
+
+    public void Upgrade3()
+    {
+        //function that upgrades the shop when button is pressed
+        kitchen_Prepare.MaxMadeCoffe += 1;
+        gamemanager.money -= cost3;
+        cost3 += 20;
+        clicked3++;
+        level3 = true;
+    }
+
 }
