@@ -1,0 +1,27 @@
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
+using TMPro;
+public class ShelfChecker : MonoBehaviour
+{
+    Kitchen_prepare kitchen_Prepare;
+    public TextMeshProUGUI CoffeCount;
+    public int CoffeOnShelf = 0;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        //get references
+        kitchen_Prepare = Object.FindAnyObjectByType<Kitchen_prepare>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //updates the coffe text to show how many coffes there are
+        CoffeCount.text = "" + CoffeOnShelf;
+    }
+
+
+
+
+}
